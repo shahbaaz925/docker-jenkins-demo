@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Setup Docker Permissions') {
             steps {
-                sh 'sudo whoami'
+                sh 'whoami'
                 sh 'newgrp docker' // Attempts to refresh group membership
             }
         }
