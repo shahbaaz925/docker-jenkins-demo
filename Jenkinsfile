@@ -1,12 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Setup Docker Permissions') {
-            steps {
-                sh 'whoami'
-                sh 'newgrp docker' // Attempts to refresh group membership
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t my-app:latest -f Dockerfile .'
@@ -15,6 +9,12 @@ pipeline {
         stage('Run Container') {
             steps {
                 sh 'docker run -d --name my-container my-app:latest'
+            }
+        }
+        stage('Cleanup') {
+            steps {
+                sh 'docker stop my-container'
+                sh 'docker rm my-container'
             }
         }
     }
